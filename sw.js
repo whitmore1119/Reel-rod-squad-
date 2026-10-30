@@ -1,0 +1,58 @@
+const CACHE = "reel-rod-squad-v10";
+const APP_SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg"];
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then(cache => cache.addAll(APP_SHELL))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(
+        keys.filter(key => key !== CACHE).map(key => caches.delete(key))
+      ))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener("fetch", event => {
+  const request = event.request;
+  if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
+
+  // Supabase and all other cross-origin requests bypass the service worker.
+  // This prevents stale REST API responses from hiding newly saved events.
+  if (url.origin !== self.location.origin) return;
+
+  // Fetch the app page from the network first so deployments are picked up.
+  if (request.mode === "navigate" || url.pathname.endsWith("/index.html") || url.pathname === "/") {
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+          if (response && response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE).then(cache => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request).then(cached => cached || caches.match("./index.html")))
+    );
+    return;
+  }
+
+  // Cache same-origin static assets only.
+  event.respondWith(
+    caches.match(request).then(cached => cached || fetch(request).then(response => {
+      if (response && response.ok) {
+        const copy = response.clone();
+        caches.open(CACHE).then(cache => cache.put(request, copy));
+      }
+      return response;
+    }))
+  );
+});
