@@ -49,7 +49,7 @@ Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before participating. Do no
 - Software source code: MIT — see [LICENSE](LICENSE).
 - Logos, artwork and project documentation: CC BY 4.0 — see [LICENSE-ASSETS.md](LICENSE-ASSETS.md).
 
-This dual-licensing arrangement is intended to keep the software under an OSI-approved licence while allowing the owner-approved reuse of the club artwork. Confirm the final licence choice before making the repository public.
+This dual-licensing arrangement is intended to keep the software under an OSI-approved licence while allowing the owner-approved reuse of the club artwork.
 
 
 ## Configure your own Supabase project
