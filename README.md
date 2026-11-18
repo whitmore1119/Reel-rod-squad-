@@ -65,3 +65,16 @@ Use only a Supabase publishable key in browser code. Never use a service-role
 or secret key. Keep Row Level Security enabled and configure policies before
 connecting any real data. The repository is a source-code template and will
 not connect to the owner's live club database until configured.
+
+
+---
+
+## Non-commercial community project
+
+Reel Rod Squad is a free community fishing club project supporting junior anglers and the wider fishing community.
+
+The app is developed and maintained on a voluntary basis. It is not a commercial product, does not charge users for access and is not operated to generate profit.
+
+The project exists to help members access club events, fishing match results, news and information.
+
+We welcome contributions that help improve the project and support the fishing community.
